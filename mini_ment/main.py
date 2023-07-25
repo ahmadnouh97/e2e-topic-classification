@@ -47,7 +47,7 @@ def train_model(args_fp: str = "config/args.json",
 
     # Load labeled data
     df = utils.load_data(str(Path(config.RAW_DATA_DIR, "tweet_topic.csv")))
-
+    print(f"df = {len(df)}")
     # Train
     args = Namespace(**utils.load_dict(filepath=args_fp))
 
@@ -81,7 +81,9 @@ def train_model(args_fp: str = "config/args.json",
         utils.save_dict(performance, Path(config.CONFIG_DIR, "performance.json"))
 
 @app.command(name="optimize")
-def optimize(args_fp, study_name, num_trials):
+def optimize(num_trials :int = 10,
+             args_fp: str = "config/args.json",
+             study_name: str = "logistic_regression_study"):
     """Optimize hyperparameters."""
     # Load labeled data
     df = utils.load_data(str(Path(config.RAW_DATA_DIR, "tweet_topic.csv")))

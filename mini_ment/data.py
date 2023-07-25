@@ -4,7 +4,6 @@ import pickle
 import emot
 from config import config
 from nltk.stem import PorterStemmer
-# from skmultilearn.model_selection import IterativeStratification
 from sklearn.model_selection import train_test_split
 
 stemmer = PorterStemmer()
@@ -16,24 +15,10 @@ with open(config.EMOJI_DICT_FILE, 'rb') as fp:
 
 def get_data_splits(X, y, train_size=0.7):
     """Generate balanced data splits."""
-    X_train, X_, y_train, y_ = train_test_split(
+    X_train, X_test, y_train, y_test = train_test_split(
         X, y, train_size=train_size, stratify=y)
-    X_val, X_test, y_val, y_test = train_test_split(
-        X_, y_, train_size=0.5, stratify=y_)
-    return X_train, X_val, X_test, y_train, y_val, y_test
 
-# def iterative_train_test_split(X, y, train_size):
-#     """Custom iterative train test split which
-#     'maintains balanced representation with respect
-#     to order-th label combinations.'
-#     """
-#     stratifier = IterativeStratification(
-#         n_splits=2, order=1, sample_distribution_per_fold=[1.0-train_size, train_size, ])
-#     train_indices, test_indices = next(stratifier.split(X, y))
-#     X_train, y_train = X[train_indices], y[train_indices]
-#     X_test, y_test = X[test_indices], y[test_indices]
-#     return X_train, X_test, y_train, y_test
-
+    return X_train, X_test, y_train, y_test
 
 def preprocess(df,
                lower=True,
@@ -42,6 +27,20 @@ def preprocess(df,
                strip_punctuations=True,
                replace_emojis=False,
                stem=True):
+    """Preprocess the data.
+
+    Args:
+        df (pd.DataFrame): Pandas DataFrame with data.
+        lower (bool): whether to lowercase the text.
+        strip_stopwords (bool): whether to strip stopwords.
+        strip_links (bool): whether to strip links.
+        strip_punctuations (bool): whether to strip punctuations.
+        replace_emojis (bool): whether to replace emojis.
+        stem (bool): whether to stem the text.
+
+    Returns:
+        pd.DataFrame: Dataframe with preprocessed data.
+    """
     df["text"] = df["text"].apply(
         clean_text,
         lower=lower,
@@ -56,6 +55,7 @@ def preprocess(df,
     return df
 
 def clean_text(text: str, **kwargs):
+    """ Clean text"""
     if kwargs["lower"]:
         text = text.lower()
     if kwargs["strip_links"]:
@@ -72,19 +72,23 @@ def clean_text(text: str, **kwargs):
     return remove_extra_spaces(text)
 
 def remove_links(text: str):
+    """Remove links"""
     return re.sub(r'http\S+', "", text)
 
 def convert_emojis(text):
+    """Convert emojis to words"""
     for emot in emoji_dict:
         text = re.sub(r"("+emot+")", "_".join(emoji_dict[emot].replace(",","").replace(":","").split()), text)
     return text
 
 def convert_emoticons(text):
+    """Convert emoticons to words"""
     for k, v in EMOTICONS.items():
         text = re.sub(u"("+re.escape(k)+")", "_".join(v.replace(",","").split()), text)
     return text
 
 def remove_punctuations(text):
+    """Remove punctuations"""
     tokens = text.split()
 
     # Define a regular expression pattern to match all punctuation except "@", "#", "!", "{", "}", ".", ","
@@ -99,11 +103,12 @@ def remove_punctuations(text):
     return text
 
 def remove_extra_spaces(text):
+    """Remove extra spaces"""
     text = text.strip()
     text = " ".join(text.split())
     return text
 
 def remove_stopwords(text):
-    pattern = re.compile(r'\b(' + r"|".join(config.STOPWORDS) + r")\b\s*")
-    text = pattern.sub('', text)
-    return text
+    """Remove stopwords"""
+    words = [word for word in text.split() if word not in config.STOPWORDS]
+    return " ".join(words)
