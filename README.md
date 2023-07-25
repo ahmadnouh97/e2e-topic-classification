@@ -37,9 +37,17 @@
 - Train:
     ```
     python mini_ment/main.py train
+    # Note: for more info run `python mini_ment/main.py train --help`
     ```
 
 - Optimize (hyperparameter tuning):
     ```
     python mini_ment/main.py optimize
+    # Note: for more info run `python mini_ment/main.py optimize --help`
+    ```
+
+- Predict:
+    ```
+    python mini_ment/main.py predict "WRITE THE TWEET HERE"
+    # Note: for more info run `python mini_ment/main.py predict --help`
     ```
