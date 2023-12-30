@@ -4,12 +4,12 @@ from pathlib import Path
 import streamlit as st
 sys.path.append(".")
 import config.config as config
-from mini_ment import main, utils
+from topic_classification import main, utils
 
 tips = utils.load_dict(config.TIPS_FILE)
 
 # Title
-st.title("Mini-Ment Topic Classification")
+st.title("Topic Classification")
 
 tab1, tab2, tab3 = st.tabs(["🔢 Data", "📊 Performance", "🚀 Inference"])
 
@@ -38,8 +38,8 @@ with tab3:
     pressed = st.button("Suggest Conversation Topic")
     if pressed:
         prediction = main.predict_topic(text=text, run_id=run_id)[0]
-        tips = tips[prediction["predicted_topic"]]
-        random_tip = random.choice(tips)
-        st.info(random_tip)
+        # tips = tips[prediction["predicted_topic"]]
+        # random_tip = random.choice(tips)
+        st.info(prediction["predicted_topic"])
 
 

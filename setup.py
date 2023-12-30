@@ -8,7 +8,7 @@ with open(Path(BASE_DIR, "requirements.txt"), "r") as file:
 
 # Setup
 setup(
-    name="mini-ment",
+    name="topic-classification",
     version=0.1,
     description="Topic Classification & Conversation Tips Generation.",
     author="Ahmad Nouh",

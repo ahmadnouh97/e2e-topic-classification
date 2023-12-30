@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.metrics import precision_recall_fscore_support
 from snorkel.slicing import PandasSFApplier
 from snorkel.slicing import slicing_function
-from mini_ment import data
+from topic_classification import data
 
 @slicing_function()
 def with_emojis(x):

@@ -1,7 +1,7 @@
 import optuna
 import json
 import pandas as pd
-from mini_ment import data, utils, evaluate
+from topic_classification import data, utils, evaluate, predict
 import config.config as config
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
