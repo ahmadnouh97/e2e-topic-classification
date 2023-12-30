@@ -1,4 +1,5 @@
-# Mini MENT
+# End-To-End Topic Classification
+A comprehensive MLOps pipeline designed for a topic classification project, utilizing MLflow.
 
 # Directories
 
@@ -17,6 +18,7 @@
 # Requirements
 - conda >= 23.5.0 (simply install [anaconda](https://www.anaconda.com/download))
 - Python == 3.10
+- mlflow==2.3.2
 ---
 
 # Setup
@@ -36,18 +38,32 @@
 
 - Train:
     ```
-    python mini_ment/main.py train
-    # Note: for more info run `python mini_ment/main.py train --help`
+    python topic_classification/main.py train
+    # Note: for more info run `python topic_classification/main.py train --help`
     ```
 
 - Optimize (hyperparameter tuning):
     ```
-    python mini_ment/main.py optimize
-    # Note: for more info run `python mini_ment/main.py optimize --help`
+    python topic_classification/main.py optimize
+    # Note: for more info run `python topic_classification/main.py optimize --help`
     ```
 
 - Predict:
     ```
-    python mini_ment/main.py predict "WRITE THE TWEET HERE"
-    # Note: for more info run `python mini_ment/main.py predict --help`
+    python topic_classification/main.py predict "WRITE THE TWEET HERE"
+    # Note: for more info run `python topic_classification/main.py predict --help`
     ```
+
+# Screenshot
+
+## Data
+    
+![Alt text](screenshots/data.png)
+
+## Performance
+    
+![Alt text](screenshots/performance.png)
+
+## Inference
+    
+![Alt text](screenshots/inference.png)

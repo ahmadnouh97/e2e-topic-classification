@@ -1,6 +1,6 @@
 from typing import List, Dict
 import numpy as np
-from mini_ment import data
+from topic_classification import data
 
 def custom_predict(y_prob):
     """Custom predict function that defaults

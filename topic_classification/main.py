@@ -11,7 +11,7 @@ from argparse import Namespace
 from numpyencoder import NumpyEncoder
 sys.path.append(".")
 import config.config as config
-from mini_ment import train, utils, predict
+from topic_classification import train, utils, predict
 import typer
 warnings.filterwarnings("ignore")
 
