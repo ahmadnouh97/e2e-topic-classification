@@ -47,7 +47,7 @@ def train_model(args_fp: str = "config/args.json",
 
     # Load labeled data
     df = utils.load_data(str(Path(config.RAW_DATA_DIR, "tweet_topic.csv")))
-    print(f"df = {len(df)}")
+    print(f"data_size = {len(df)}")
     # Train
     args = Namespace(**utils.load_dict(filepath=args_fp))
 
