@@ -1,13 +1,11 @@
 import sys
-import random
 from pathlib import Path
 import streamlit as st
 sys.path.append(".")
 import config.config as config
 from topic_classification import main, utils
 
-tips = utils.load_dict(config.TIPS_FILE)
-
+default_tweet = "🏀🎾🏈 Sports bring us together, transcending borders and differences, uniting us under the banner of athleticism and passion! Whether it's the thrill of a last-minute goal, a breathtaking slam dunk, or a hard-fought match, sports ignite our spirits and remind us of the power of teamwork and dedication. Let's cheer for our favorite athletes and celebrate the magic of sports! 🎉 #Sports #Passion #Teamwork"
 # Title
 st.title("Topic Classification")
 
@@ -33,13 +31,13 @@ with tab2:
 
 with tab3:
     st.header("🚀 Inference")
-    run_id = st.text_input("Enter run ID:", open(Path(config.CONFIG_DIR, "run_id.txt")).read())
-    text = st.text_area("My Contact's Tweet:", "🏀🎾🏈 Sports bring us together, transcending borders and differences, uniting us under the banner of athleticism and passion! Whether it's the thrill of a last-minute goal, a breathtaking slam dunk, or a hard-fought match, sports ignite our spirits and remind us of the power of teamwork and dedication. Let's cheer for our favorite athletes and celebrate the magic of sports! 🎉 #Sports #Passion #Teamwork")
-    pressed = st.button("Suggest Conversation Topic")
+    # run_id = st.text_input("Enter run ID:", open(Path(config.CONFIG_DIR, "run_id.txt")).read())
+    run_id = open(Path(config.CONFIG_DIR, "run_id.txt")).read()
+    text = st.text_area("Tweet:", default_tweet, height=200)
+    pressed = st.button("Predict Topic")
     if pressed:
-        prediction = main.predict_topic(text=text, run_id=run_id)[0]
-        # tips = tips[prediction["predicted_topic"]]
-        # random_tip = random.choice(tips)
+        with st.spinner('Please wait...'):
+            prediction = main.predict_topic(text=text, run_id=run_id)[0]
         st.info(prediction["predicted_topic"])
 
 
