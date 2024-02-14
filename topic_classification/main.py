@@ -17,26 +17,6 @@ warnings.filterwarnings("ignore")
 
 app = typer.Typer()
 
-def load_artifacts(run_id):
-    """Load artifacts for a given run_id."""
-    # Locate specifics artifacts directory
-    experiment_id = mlflow.get_run(run_id=run_id).info.experiment_id
-    artifacts_dir = Path(config.MODEL_REGISTRY, experiment_id, run_id, "artifacts")
-
-    # Load objects from run
-    args = Namespace(**utils.load_dict(filepath=Path(artifacts_dir, "args.json")))
-    vectorizer = joblib.load(Path(artifacts_dir, "vectorizer.pkl"))
-    label_encoder = joblib.load(Path(artifacts_dir, "label_encoder.pkl"))
-    model = joblib.load(Path(artifacts_dir, "model.pkl"))
-    performance = utils.load_dict(filepath=Path(artifacts_dir, "performance.json"))
-
-    return {
-        "args": args,
-        "label_encoder": label_encoder,
-        "vectorizer": vectorizer,
-        "model": model,
-        "performance": performance
-    }
 
 @app.command(name="train")
 def train_model(args_fp: str = "config/args.json", 
@@ -111,7 +91,7 @@ def predict_topic(text, run_id=None):
     """Predict the topic of a text."""
     if not run_id:
         run_id = open(Path(config.CONFIG_DIR, "run_id.txt")).read()
-    artifacts = load_artifacts(run_id=run_id)
+    artifacts = utils.load_artifacts(run_id=run_id)
     prediction = predict.predict(texts=[text], artifacts=artifacts)
     print(json.dumps(prediction, indent=2))
     return prediction
