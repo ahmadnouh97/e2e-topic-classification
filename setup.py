@@ -13,7 +13,7 @@ setup(
     description="Topic Classification & Conversation Tips Generation.",
     author="Ahmad Nouh",
     author_email="ahmadnouh428@gmail.com",
-    python_requires=">=3.10",
+    python_requires=">=3.11",
     packages=find_namespace_packages(),
-    install_requires=[required_packages],
+    install_requires=required_packages,
 )

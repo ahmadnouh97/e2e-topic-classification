@@ -3,3 +3,4 @@ topic_classification.egg-info
 **/**/.trash
 **/__pycache__
 **/.ipynb_checkpoints
+.venv/
