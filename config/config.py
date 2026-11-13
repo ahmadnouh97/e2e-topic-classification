@@ -1,4 +1,5 @@
 import mlflow
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent.absolute()
@@ -23,4 +24,5 @@ with open(str(Path(ASSETS_DIR, "stopwords.txt")), "r") as file:
 
 MODEL_REGISTRY.mkdir(parents=True, exist_ok=True)
 
-mlflow.set_tracking_uri("file://" + str(MODEL_REGISTRY.absolute()))
+os.environ.setdefault("MLFLOW_ALLOW_FILE_STORE", "true")
+mlflow.set_tracking_uri(MODEL_REGISTRY.as_uri())

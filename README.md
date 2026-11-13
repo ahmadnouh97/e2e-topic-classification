@@ -17,14 +17,14 @@ A comprehensive MLOps pipeline designed for a topic classification project, util
 
 # Requirements
 - conda >= 23.5.0 (simply install [anaconda](https://www.anaconda.com/download))
-- Python == 3.10
-- mlflow==2.3.2
+- Python >= 3.11
+- Dependencies are listed in `requirements.txt`.
 ---
 
 # Setup
 - create virtual environment.
     ```
-    conda create -p venv python=3.10
+    conda create -p venv python=3.11
     conda activate ./venv
     python -m pip install -e .
     ```

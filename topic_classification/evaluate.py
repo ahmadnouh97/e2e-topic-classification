@@ -1,16 +1,12 @@
 import numpy as np
 from sklearn.metrics import precision_recall_fscore_support
-from snorkel.slicing import PandasSFApplier
-from snorkel.slicing import slicing_function
 from topic_classification import data
 
-@slicing_function()
 def with_emojis(x):
     """Check if a tweet contains emojis"""
     return any(emoji_text in x.text for emoji_text in data.emoji_dict.values())
 
 
-@slicing_function()
 def short_tweet(x):
     """Tweets with short text"""
     return len(x.text.split()) < 10
@@ -39,7 +35,9 @@ def get_metrics(y_true, y_pred, classes, df=None):
     
     # Slice metrics
     if df is not None:
-        slices = PandasSFApplier([with_emojis, short_tweet]).apply(df)
+        slices = np.empty(len(df), dtype=[("with_emojis", bool), ("short_tweet", bool)])
+        for name, func in (("with_emojis", with_emojis), ("short_tweet", short_tweet)):
+            slices[name] = df.apply(func, axis=1).to_numpy(dtype=bool)
         metrics["slices"] = get_slice_metrics(
             y_true=y_true, y_pred=y_pred, slices=slices)
 
